@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { text } from 'stream/consumers';
+import { text } from 'stream/consumers';
 
 test.describe('Pulpit tests', () => {
     test('quick payment with correct data', async ({ page }) => {
@@ -22,9 +23,15 @@ test.describe('Pulpit tests', () => {
         await page.locator('#widget_1_transfer_receiver').selectOption(recieverId);
         await page.locator('#widget_1_transfer_amount').fill(transferAmount);
         await page.locator('#widget_1_transfer_title').fill(transferTitle);
+
+        await page.locator('#widget_1_transfer_receiver').selectOption(recieverId);
+        await page.locator('#widget_1_transfer_amount').fill(transferAmount);
+        await page.locator('#widget_1_transfer_title').fill(transferTitle);
         await page.getByRole('button', { name: 'wykonaj' }).click();
         await page.getByTestId('close-button').click();
 
+        // Assert
+        await expect(page.locator('#show_messages')).toHaveText(`Przelew wykonany! ${expectedTransferReciever} - ${transferAmount},00PLN - ${transferTitle}`);
         // Assert
         await expect(page.locator('#show_messages')).toHaveText(`Przelew wykonany! ${expectedTransferReciever} - ${transferAmount},00PLN - ${transferTitle}`);
     });
@@ -44,6 +51,10 @@ test.describe('Pulpit tests', () => {
         await expect(page.locator('#show_messages')).toHaveText('Doładowanie wykonane! 120,00PLN na numer 500 xxx xxx');
 
     });
+
+    test('test01', async ({ page }) => {
+
+    })
 
     test('test01', async ({ page }) => {
 
