@@ -26,6 +26,6 @@ test.describe("Pulpit tests", () => {
     await page.getByTestId("close-button").click();
 
     //Assert
-    await expect(page.locator('#show_messages')).toHaveText(expectedMessage)
+    await expect(page.locator("#show_messages")).toHaveText(expectedMessage);
   });
 });
