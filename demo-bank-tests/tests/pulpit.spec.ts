@@ -2,12 +2,18 @@ import { test, expect } from "@playwright/test";
 import { text } from "stream/consumers";
 
 test.describe("Pulpit tests", () => {
-  test("quick payment with correct data", async ({ page }) => {
-    // Arrange
+  test.beforeEach(async ({ page }) => {
     const demoBankUrl = "https://demo-bank.vercel.app/";
     const userId = "Mateusz1";
     const UserPassword = "Mateusz1";
+    await page.goto(demoBankUrl);
+    await page.getByTestId("login-input").fill(userId);
+    await page.getByTestId("password-input").fill(UserPassword);
+    await page.getByTestId("login-button").click();
+  });
 
+  test("quick payment with correct data", async ({ page }) => {
+    // Arrange
     const recieverId = "2";
     const transferAmount = "120";
     const transferTitle = "pizza";
@@ -15,11 +21,6 @@ test.describe("Pulpit tests", () => {
     const expectedMessage = `Przelew wykonany! ${expectedTransferReciever} - ${transferAmount},00PLN - ${transferTitle}`;
 
     // Act
-    await page.goto(demoBankUrl);
-    await page.getByTestId("login-input").fill(userId);
-    await page.getByTestId("password-input").fill(UserPassword);
-    await page.getByTestId("login-button").click();
-
     await page.locator("#widget_1_transfer_receiver").selectOption(recieverId);
     await page.locator("#widget_1_transfer_amount").fill(transferAmount);
     await page.locator("#widget_1_transfer_title").fill(transferTitle);
@@ -34,19 +35,11 @@ test.describe("Pulpit tests", () => {
     page,
   }) => {
     // Arrange
-    const demoBankUrl = "https://demo-bank.vercel.app/";
-    const userId = "Mateusz1";
-    const UserPassword = "Mateusz1";
     const topUpReciever = "500 xxx xxx";
     const topUpAmount = "120";
     const expectedMessage = `Doładowanie wykonane! ${topUpAmount},00PLN na numer ${topUpReciever}`;
 
     // Act
-    await page.goto(demoBankUrl);
-    await page.getByTestId("login-input").fill(userId);
-    await page.getByTestId("password-input").fill(UserPassword);
-    await page.getByTestId("login-button").click();
-
     await page.locator("#widget_1_topup_receiver").selectOption(topUpReciever);
     await page.locator("#widget_1_topup_amount").fill(topUpAmount);
     await page.locator("#widget_1_topup_agreement").check();
