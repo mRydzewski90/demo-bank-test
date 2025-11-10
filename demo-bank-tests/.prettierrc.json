@@ -1,3 +1,4 @@
 {
-  "signaleQuote": true
+  "signaleQuote": true,
+  "endOfLine": "auto"
 }
