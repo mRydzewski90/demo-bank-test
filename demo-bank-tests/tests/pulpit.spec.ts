@@ -34,18 +34,28 @@ test.describe("Pulpit tests", () => {
   test("check if expected message is displayed when user tries to top up phone with amount of 120 zl", async ({
     page,
   }) => {
-    await page.goto("https://demo-bank.vercel.app/");
-    await page.locator("#login_id").fill("Mateusz1");
-    await page.locator("#login_password").fill("Mateusz1");
+    // Arrange
+    const demoBankUrl = "https://demo-bank.vercel.app/";
+    const userId = "Mateusz1";
+    const UserPassword = "Mateusz1";
+    const topUpReciever = "500 xxx xxx";
+    const topUpAmount = "120";
+
+    // Act
+    await page.goto(demoBankUrl);
+    await page.getByTestId("login-input").fill(userId);
+    await page.getByTestId("password-input").fill(UserPassword);
     await page.getByTestId("login-button").click();
-    await page.locator("#widget_1_topup_receiver").selectOption("500 xxx xxx");
-    await page.locator("#widget_1_topup_amount").fill("120");
+
+    await page.locator("#widget_1_topup_receiver").selectOption(topUpReciever);
+    await page.locator("#widget_1_topup_amount").fill(topUpAmount);
     await page.locator("#widget_1_topup_agreement").check();
     await page.getByTestId("execute_phone_btn").click;
     await page.getByRole("button", { name: "doładuj telefon" }).click();
 
+    // Assert
     await expect(page.locator("#show_messages")).toHaveText(
-      "Doładowanie wykonane! 120,00PLN na numer 500 xxx xxx",
+      `Doładowanie wykonane! ${topUpAmount},00PLN na numer ${topUpReciever}`
     );
   });
 });
