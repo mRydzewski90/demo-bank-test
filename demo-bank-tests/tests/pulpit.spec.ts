@@ -12,6 +12,7 @@ test.describe("Pulpit tests", () => {
     const transferAmount = "120";
     const transferTitle = "pizza";
     const expectedTransferReciever = "Chuck Demobankowy";
+    const expectedMessage = `Przelew wykonany! ${expectedTransferReciever} - ${transferAmount},00PLN - ${transferTitle}`;
 
     // Act
     await page.goto(demoBankUrl);
@@ -26,9 +27,7 @@ test.describe("Pulpit tests", () => {
     await page.getByTestId("close-button").click();
 
     // Assert
-    await expect(page.locator("#show_messages")).toHaveText(
-      `Przelew wykonany! ${expectedTransferReciever} - ${transferAmount},00PLN - ${transferTitle}`,
-    );
+    await expect(page.locator("#show_messages")).toHaveText(expectedMessage);
   });
 
   test("check if expected message is displayed when user tries to top up phone with amount of 120 zl", async ({
@@ -40,6 +39,7 @@ test.describe("Pulpit tests", () => {
     const UserPassword = "Mateusz1";
     const topUpReciever = "500 xxx xxx";
     const topUpAmount = "120";
+    const expectedMessage = `Doładowanie wykonane! ${topUpAmount},00PLN na numer ${topUpReciever}`;
 
     // Act
     await page.goto(demoBankUrl);
@@ -54,8 +54,6 @@ test.describe("Pulpit tests", () => {
     await page.getByRole("button", { name: "doładuj telefon" }).click();
 
     // Assert
-    await expect(page.locator("#show_messages")).toHaveText(
-      `Doładowanie wykonane! ${topUpAmount},00PLN na numer ${topUpReciever}`
-    );
+    await expect(page.locator("#show_messages")).toHaveText(expectedMessage);
   });
 });
