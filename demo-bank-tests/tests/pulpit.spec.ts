@@ -1,10 +1,11 @@
 import { test, expect } from "@playwright/test";
 import { text } from "stream/consumers";
+import { loginData } from "../test-data/login.data";
 
 test.describe("Pulpit tests", () => {
   test.beforeEach(async ({ page }) => {
-    const userId = "Mateusz1";
-    const UserPassword = "Mateusz1";
+    const userId = loginData.userID;
+    const UserPassword = loginData.password;
     await page.goto("/");
     await page.getByTestId("login-input").fill(userId);
     await page.getByTestId("password-input").fill(UserPassword);
@@ -49,13 +50,11 @@ test.describe("Pulpit tests", () => {
     await expect(page.locator("#show_messages")).toHaveText(expectedMessage);
   });
 
-  test.only("check balanced after correct top-up", async ({
-    page,
-  }) => {
+  test("check balanced after correct top-up", async ({ page }) => {
     // Arrange
     const topUpReciever = "500 xxx xxx";
     const topUpAmount = "120";
-    const actualBalanced = await page.locator('#money_value').innerText();
+    const actualBalanced = await page.locator("#money_value").innerText();
     const expectedBalamced = Number(actualBalanced) - Number(topUpAmount);
 
     // Act
@@ -66,6 +65,8 @@ test.describe("Pulpit tests", () => {
     await page.getByRole("button", { name: "doładuj telefon" }).click();
 
     // Assert
-    await expect(page.locator("#money_value")).toHaveText(`${expectedBalamced}`);
+    await expect(page.locator("#money_value")).toHaveText(
+      `${expectedBalamced}`,
+    );
   });
 });
