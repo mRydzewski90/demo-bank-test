@@ -1,19 +1,32 @@
 import { test, expect } from '@playwright/test';
+import { text } from 'stream/consumers';
 
 test.describe('Pulpit tests', () => {
-    test('quick payment with correct data', async ({ page }) => {
-        await page.goto('https://demo-bank.vercel.app/');
-        await page.getByTestId('login-input').fill('Mateusz1');
-        await page.getByTestId('password-input').fill('Mateusz1');
+    test.only('quick payment with correct data', async ({ page }) => {
+        // Arrange
+        const demoBankUrl = 'https://demo-bank.vercel.app/';
+        const userId = 'Mateusz1';
+        const UserPassword = 'Mateusz1';
+
+        const recieverId = '2';
+        const transferAmount = '120';
+        const transferTitle = 'pizza';
+        const expectedTransferReciever = 'Chuck Demobankowy';
+
+        // Act
+        await page.goto(demoBankUrl);
+        await page.getByTestId('login-input').fill(userId);
+        await page.getByTestId('password-input').fill(UserPassword);
         await page.getByTestId('login-button').click();
-        await page.locator('#widget_1_transfer_receiver').selectOption('2');
-        await page.locator('#widget_1_transfer_amount').fill('120');
-        await page.locator('#widget_1_transfer_title').fill('zwrot');
+
+        await page.locator('#widget_1_transfer_receiver').selectOption(recieverId);
+        await page.locator('#widget_1_transfer_amount').fill(transferAmount);
+        await page.locator('#widget_1_transfer_title').fill(transferTitle);
         await page.getByRole('button', { name: 'wykonaj' }).click();
-        await page.getByText('Przelew wykonany!Odbiorca:').click();
         await page.getByTestId('close-button').click();
 
-        await expect(page.locator('xpath=//div[2]/label/a/span')).toHaveText('Przelew wykonany! Chuck Demobankowy - 120,00PLN - zwrot');
+        // Assert
+        await expect(page.locator('#show_messages')).toHaveText(`Przelew wykonany! ${expectedTransferReciever} - ${transferAmount},00PLN - ${transferTitle}`);
     });
 
 
@@ -31,5 +44,9 @@ test.describe('Pulpit tests', () => {
         await expect(page.locator('#show_messages')).toHaveText('Doładowanie wykonane! 120,00PLN na numer 500 xxx xxx');
 
     });
+
+    test('test01', async ({ page }) => {
+
+    })
 
 });
