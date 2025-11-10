@@ -3,10 +3,9 @@ import { text } from "stream/consumers";
 
 test.describe("Pulpit tests", () => {
   test.beforeEach(async ({ page }) => {
-    const demoBankUrl = "https://demo-bank.vercel.app/";
     const userId = "Mateusz1";
     const UserPassword = "Mateusz1";
-    await page.goto(demoBankUrl);
+    await page.goto("/");
     await page.getByTestId("login-input").fill(userId);
     await page.getByTestId("password-input").fill(UserPassword);
     await page.getByTestId("login-button").click();
