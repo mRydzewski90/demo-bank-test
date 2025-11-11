@@ -1,7 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { loginData } from "../test-data/login.data";
 import { LoginPage } from "../pages/login.page";
-import { log } from "console";
 
 test.describe("User login to DemoBank", () => {
   test.beforeEach(async ({ page }) => {
@@ -38,7 +37,7 @@ test.describe("User login to DemoBank", () => {
     await expect(loginPage.loginError).toHaveText(expectedErrorLoginMessage);
   });
 
-  test.only("successful login with too short password", async ({ page }) => {
+  test("successful login with too short password", async ({ page }) => {
     // Arrange
     const userId = loginData.userID;
     const userPassword = "Mateu";
