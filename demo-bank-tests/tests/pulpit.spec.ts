@@ -1,7 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { text } from "stream/consumers";
 import { loginData } from "../test-data/login.data";
-import { LoginPage } from "../pages/login.pages";
+import { LoginPage } from "../pages/login.page";
 
 test.describe("Pulpit tests", () => {
   test.beforeEach(async ({ page }) => {

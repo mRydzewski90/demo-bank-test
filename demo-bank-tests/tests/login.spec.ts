@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { loginData } from "../test-data/login.data";
-import { LoginPage } from "../pages/login.pages";
+import { LoginPage } from "../pages/login.page";
 import { log } from "console";
 
 test.describe("User login to DemoBank", () => {
