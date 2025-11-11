@@ -5,9 +5,12 @@ import { PaymentPage } from "../pages/payment.page";
 import { PulpitPage } from "../pages/pulpit.page";
 
 test.describe("Pulpit tests", () => {
+  let paymentPage: PaymentPage;
   test.beforeEach(async ({ page }) => {
     const userId = loginData.userID;
     const userPassword = loginData.password;
+
+    paymentPage = new PaymentPage(page);
 
     await page.goto("/");
     const loginPage = new LoginPage(page);
@@ -26,7 +29,6 @@ test.describe("Pulpit tests", () => {
     const expectedMessage = `Przelew wykonany! ${transferAmount},00PLN dla ${transferReceiver}`;
 
     // Act
-    const paymentPage = new PaymentPage(page);
     await paymentPage.transferReceiverInput.fill(transferReceiver);
     await paymentPage.transferAccountInput.fill(accNumber);
     await paymentPage.transferAmountInput.fill(transferAmount);
