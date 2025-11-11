@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 import { loginData } from "../test-data/login.data";
 import { LoginPage } from "../pages/login.page";
+import { PulpitPage } from "../pages/pulpit.page";
 
 test.describe("User login to DemoBank", () => {
   test.beforeEach(async ({ page }) => {
@@ -20,7 +21,8 @@ test.describe("User login to DemoBank", () => {
     await loginPage.loginButton.click();
 
     // Assert
-    await expect(page.locator("#user_name")).toHaveText(expectedUserName);
+    const pulpitPage = new PulpitPage(page);
+    await expect(pulpitPage.userName).toHaveText(expectedUserName);
   });
 
   test("successful login with too short username", async ({ page }) => {
