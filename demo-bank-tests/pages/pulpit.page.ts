@@ -1,22 +1,26 @@
 import { Locator, Page } from "@playwright/test";
+import { SideMenuComponent } from "../components/side-menu.component";
 
 export class PulpitPage {
-  transferReceiver : Locator;
-  transferAmount : Locator;
-  transferTitle  : Locator;
-  executeButton : Locator;
-  closeButton : Locator;    
-  expectedMessage : Locator;
+  transferReceiver: Locator;
+  transferAmount: Locator;
+  transferTitle: Locator;
+  executeButton: Locator;
+  closeButton: Locator;
+  expectedMessage: Locator;
 
-  topUpReceiver : Locator;
-  topUpAmount : Locator;
-  topUpAgreement : Locator;
-  executePhoneButton : Locator;
-  topUpButton : Locator;
-  expectedMoneyValue : Locator;
-  userName : Locator;
+  topUpReceiver: Locator;
+  topUpAmount: Locator;
+  topUpAgreement: Locator;
+  executePhoneButton: Locator;
+  topUpButton: Locator;
+  expectedMoneyValue: Locator;
+  userName: Locator;
+  sideMenuComponent: SideMenuComponent;
 
   constructor(private page: Page) {
+    this.sideMenuComponent = new SideMenuComponent(this.page);
+
     this.transferReceiver = this.page.locator("#widget_1_transfer_receiver");
     this.transferAmount = this.page.locator("#widget_1_transfer_amount");
     this.transferTitle = this.page.locator("#widget_1_transfer_title");
