@@ -11,9 +11,7 @@ test.describe("Pulpit tests", () => {
     await page.goto("/");
 
     const loginPage = new LoginPage(page);
-    await loginPage.loginInput.fill(userId);
-    await loginPage.passwordInput.fill(UserPassword);
-    await loginPage.loginButton.click();
+    await loginPage.login(userId, UserPassword);
 
     pulpitPage = new PulpitPage(page);
   });
